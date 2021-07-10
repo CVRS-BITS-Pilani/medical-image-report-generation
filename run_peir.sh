@@ -1,0 +1,16 @@
+python main.py \
+--image_dir data/peir_gross_images/ \
+--ann_path ./annotations.json \
+--dataset_name mimic_cxr \
+--max_seq_length 100 \
+--threshold 10 \
+--batch_size 16 \
+--epochs 20 \
+--save_dir results/peir_gross \
+--step_size 1 \
+--gamma 0.8 \
+--seed 456789 \
+--visual_extractor hrnet \
+--lr_ve 1e-5 \
+--lr_ed 5e-5 \
+--resume /home/teamc/dwij/R2Gen/results/peir_gross/current_checkpoint.pth
