@@ -1,6 +1,6 @@
 import torch
 from torch import nn
-from models.modules import BasicBlock, Bottleneck
+from modules.hrnet.modules import BasicBlock, Bottleneck
 
 
 class StageModule(nn.Module):
@@ -211,6 +211,6 @@ if __name__ == '__main__':
 
     model = model.to(device)
 
-    y = model(torch.ones(1, 3, 384, 288).to(device))
+    y = model(torch.ones(1, 3, 224, 224).to(device))
     print(y.shape)
     print(torch.min(y).item(), torch.mean(y).item(), torch.max(y).item())
