@@ -13,4 +13,4 @@ python main.py \
 --visual_extractor hrnet \
 --lr_ve 5e-5 \
 --lr_ed 1e-4 \
---resume /home/teamc/dwij/R2Gen/results/peir_gross/current_checkpoint.pth
+# --resume /home/teamc/dwij/R2Gen/results/peir_gross/current_checkpoint.pth

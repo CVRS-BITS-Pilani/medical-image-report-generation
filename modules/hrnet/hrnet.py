@@ -1,7 +1,7 @@
 import torch
 from torch import nn
 from modules.hrnet.modules import BasicBlock, Bottleneck
-
+from modules.hrnet.cbam import CBAM
 
 class StageModule(nn.Module):
     def __init__(self, stage, output_branches, c, bn_momentum):
@@ -164,6 +164,7 @@ class HRNet(nn.Module):
 
         x = self.layer1(x)
         x = [trans(x) for trans in self.transition1]  # Since now, x is a list (# == nof branches)
+        first_representation = x[-1]
 
         x = self.stage2(x)
         # x = [trans(x[-1]) for trans in self.transition2]    # New branch derives from the "upper" branch only
@@ -172,6 +173,7 @@ class HRNet(nn.Module):
             self.transition2[1](x[1]),
             self.transition2[2](x[-1])
         ]  # New branch derives from the "upper" branch only
+        second_representation = x[-1]
 
         x = self.stage3(x)
         # x = [trans(x) for trans in self.transition3]    # New branch derives from the "upper" branch only
@@ -181,12 +183,13 @@ class HRNet(nn.Module):
             self.transition3[2](x[2]),
             self.transition3[3](x[-1])
         ]  # New branch derives from the "upper" branch only
+        third_representation = x[-1]
 
         x = self.stage4(x)
+        # last_representation = x[-1]
+        # x = self.final_layer(x[0])
 
-        x = self.final_layer(x[0])
-
-        return x
+        return [x[0], first_representation, second_representation, third_representation]
 
 
 if __name__ == '__main__':
@@ -211,6 +214,31 @@ if __name__ == '__main__':
 
     model = model.to(device)
 
-    y = model(torch.ones(1, 3, 224, 224).to(device))
-    print(y.shape)
-    print(torch.min(y).item(), torch.mean(y).item(), torch.max(y).item())
+    cbam1 = CBAM(64, 16)
+    cbam2 = CBAM(128, 16)
+    cbam3 = CBAM(256, 16)
+    y_ = model(torch.ones(1, 3, 224, 224).to(device))
+
+    y_[1] = cbam1(y_[1])
+    y_[2] = cbam2(y_[2])
+    y_[3] = cbam3(y_[3])
+    for y in y_:
+        print(y.shape)
+        print(torch.min(y).item(), torch.mean(y).item(), torch.max(y).item())
+
+    # IN CASE FINAL LAYER USED
+    # torch.Size([1, 17, 56, 56])
+    # -0.010324021801352501 0.0020958438981324434 0.31351426243782043
+
+    # CURRENT
+    #
+    # torch.Size([1, 32, 56, 56])
+    # 0.0 0.00573328323662281 1.0893683433532715
+    # torch.Size([1, 64, 28, 28])
+    # 0.0 0.5806896686553955 11.627058029174805
+    # torch.Size([1, 128, 14, 14])
+    # 0.0 0.1283765584230423 3.480653762817383
+    # torch.Size([1, 256, 7, 7])
+    # 0.0 0.11412204056978226 1.395980954170227
+
+    # NO change in shapes after CBAM!
