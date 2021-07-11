@@ -11,6 +11,6 @@ python main.py \
 --gamma 0.8 \
 --seed 456789 \
 --visual_extractor hrnet \
---lr_ve 1e-5 \
---lr_ed 5e-5 \
+--lr_ve 5e-5 \
+--lr_ed 1e-4 \
 --resume /home/teamc/dwij/R2Gen/results/peir_gross/current_checkpoint.pth
