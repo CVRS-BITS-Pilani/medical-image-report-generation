@@ -6,7 +6,7 @@ python main.py \
 --threshold 10 \
 --batch_size 16 \
 --epochs 20 \
---save_dir results/peir_gross \
+--save_dir results/peir_gross-hrnet-newskip-attn \
 --step_size 1 \
 --gamma 0.8 \
 --seed 456789 \
