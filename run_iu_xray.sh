@@ -10,4 +10,7 @@ python main.py \
 --save_dir results/iu_xray \
 --step_size 50 \
 --gamma 0.1 \
---seed 9223
+--seed 9223 \
+# --lr_ve 25e-7 \
+# --lr_ed 5e-6 \
+# --resume /home/teamc/dwij/R2Gen/results/iu_xray/model_best.pth
