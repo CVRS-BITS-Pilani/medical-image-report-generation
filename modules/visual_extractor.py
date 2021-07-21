@@ -42,9 +42,9 @@ class VisualExtractor(nn.Module):
         if self.visual_extractor == "hrnet":
             patch_feats = self.conv1(patch_feats)
 
-            first = self.conv2(self.cbam1(first))
-            second = self.conv3(self.cbam2(second))
-            third = self.conv4(self.cbam3(third))
+            first = self.conv2(first)
+            second = self.conv3(second)
+            third = self.conv4(third)
 
             patch_feats = torch.cat((patch_feats, first, second, third), 1)
 
