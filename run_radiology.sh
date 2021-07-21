@@ -1,0 +1,16 @@
+python main.py \
+--image_dir data/peir_gross_radiology_images/ \
+--ann_path ./peir-radiology-annotations.json \
+--dataset_name mimic_cxr \
+--max_seq_length 100 \
+--threshold 10 \
+--batch_size 16 \
+--epochs 20 \
+--save_dir results/peir_radiology-hrnet-skip \
+--step_size 1 \
+--gamma 0.8 \
+--seed 456789 \
+--visual_extractor hrnet \
+--lr_ve 5e-5 \
+--lr_ed 1e-4 \
+--n_gpu 1

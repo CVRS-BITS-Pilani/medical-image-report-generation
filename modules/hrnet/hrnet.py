@@ -183,7 +183,7 @@ class HRNet(nn.Module):
             self.transition3[2](x[2]),
             self.transition3[3](x[-1])
         ]  # New branch derives from the "upper" branch only
-        return [x[0], x[1], x[2], x[3]]
+        # return [x[0], x[1], x[2], x[3]]
         third_representation = x[-1]
 
         x = self.stage4(x)
